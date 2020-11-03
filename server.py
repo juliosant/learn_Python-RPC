@@ -4,52 +4,52 @@ from xmlrpc.server import SimpleXMLRPCRequestHandler
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
 
-class Pacient:
+class Citizen:
     def __init__(self, id, name, age, nationality):
         self.id = id
         self.name = name
         self.age = age
         self.nationality = nationality
 
-class Hospital:
+class City:
     def __init__(self):
-        self.pacients =[]
-        self.pacients.append(Pacient(id =9783, name ='Matheus', age=18, nationality ='South African'))
-        self.pacients.append(Pacient(id =5735, name ='Marcos', age=26, nationality ='Israeli'))
-        self.pacients.append(Pacient(id =3759, name ='Lucas', age=28, nationality ='Brasilian'))
-        self.pacients.append(Pacient(id =8927, name ='Joao', age=21, nationality ='Irish'))
+        self.citizens =[]
+        self.citizens.append(Citizen(id =9783, name ='Matheus', age=18, nationality ='South African'))
+        self.citizens.append(Citizen(id =5735, name ='Marcos', age=26, nationality ='Israeli'))
+        self.citizens.append(Citizen(id =3759, name ='Lucas', age=28, nationality ='Brasilian'))
+        self.citizens.append(Citizen(id =8927, name ='Joao', age=21, nationality ='Irish'))
 
-    def showPacientById(self, id):
-        for pacient in self.pacients:
-            if pacient.id == id:
-                return f'Paciente nº{pacient.id}:\n Nome: {pacient.name}\n Idade: {pacient.age}\n Nacionalidade: {pacient.nationality}'
+    def showCitizenById(self, id):
+        for citizen in self.citizens:
+            if citizen.id == id:
+                return f'cidadão nº{citizen.id}:\n Nome: {citizen.name}\n Idade: {citizen.age}\n Nacionalidade: {citizen.nationality}'
         return False
     
-    def showPacientByName(self, name):
-        for pacient in self.pacients:
-            if pacient.name == name:
-                return f'Paciente nº{pacient.id}:\n Nome: {pacient.name}\n Idade: {pacient.age}\n Nacionalidade: {pacient.nationality}'
+    def showCitizenByName(self, name):
+        for citizen in self.citizens:
+            if citizen.name == name:
+                return f'Cidadão nº{citizen.id}:\n Nome: {citizen.name}\n Idade: {citizen.age}\n Nacionalidade: {citizen.nationality}'
         return False
     
-    def registerPacient(self, newId, newName, newAge, newNationality):
-        self.pacients.append(Pacient(id =newId, name =newName, age =newAge, nationality =newNationality))
-        print(f'Paciente {newName} foi cadastrado id: {newId}')
-        return f'Paciente {newName} foi cadastrado, id: {newId}'
+    def registerCitizen(self, newId, newName, newAge, newNationality):
+        self.citizens.append(Citizen(id =newId, name =newName, age =newAge, nationality =newNationality))
+        print(f'Cidadão {newName} foi cadastrado id: {newId}')
+        return f'Cidadão {newName} foi cadastrado, id: {newId}'
 
-    def updatePacient(self, newId, newName, newAge, newNationality):
-        for pacient in self.pacients:
-            if pacient.id == newId:
-                pacient.name = newName
-                pacient.age = newAge
-                pacient.nationality = newNationality
-                print(f'Dados de {pacient.id} - {pacient.name} foram alterados')
-                return f'Dados de {pacient.id} - {pacient.name} foram alterados'
+    def updateCitizen(self, newId, newName, newAge, newNationality):
+        for citizen in self.citizens:
+            if citizen.id == newId:
+                citizen.name = newName
+                citizen.age = newAge
+                citizen.nationality = newNationality
+                print(f'Dados de {citizen.id} - {citizen.name} foram alterados')
+                return f'Dados de {citizen.id} - {citizen.name} foram alterados'
         return False
 #Criar servidor RCP
-with SimpleXMLRPCServer(('localhost', 8000),
+with SimpleXMLRPCServer(('localhost', 8001),
                         requestHandler=RequestHandler, allow_none=True) as server:
     server.register_introspection_functions()
     
-    server.register_instance(Hospital())
+    server.register_instance(City())
     #Servidor em loop
     server.serve_forever()
