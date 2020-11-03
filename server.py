@@ -22,13 +22,29 @@ class Hospital:
     def showPacientById(self, id):
         for pacient in self.pacients:
             if pacient.id == id:
-                return f'Paciente nº{id}:\n Nome: {pacient.name}\n Idade: {pacient.age}\n Nacionalidade: {pacient.nationality}'
+                return f'Paciente nº{pacient.id}:\n Nome: {pacient.name}\n Idade: {pacient.age}\n Nacionalidade: {pacient.nationality}'
+        return False
+    
+    def showPacientByName(self, name):
+        for pacient in self.pacients:
+            if pacient.name == name:
+                return f'Paciente nº{pacient.id}:\n Nome: {pacient.name}\n Idade: {pacient.age}\n Nacionalidade: {pacient.nationality}'
         return False
     
     def registerPacient(self, newId, newName, newAge, newNationality):
         self.pacients.append(Pacient(id =newId, name =newName, age =newAge, nationality =newNationality))
         print(f'Paciente {newName} foi cadastrado id: {newId}')
         return f'Paciente {newName} foi cadastrado, id: {newId}'
+
+    def updatePacient(self, newId, newName, newAge, newNationality):
+        for pacient in self.pacients:
+            if pacient.id == newId:
+                pacient.name = newName
+                pacient.age = newAge
+                pacient.nationality = newNationality
+                print(f'Dados de {pacient.id} - {pacient.name} foram alterados')
+                return f'Dados de {pacient.id} - {pacient.name} foram alterados'
+        return False
 #Criar servidor RCP
 with SimpleXMLRPCServer(('localhost', 8000),
                         requestHandler=RequestHandler, allow_none=True) as server:
